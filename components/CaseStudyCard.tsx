@@ -1,4 +1,7 @@
 import Link from 'next/link'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import type { CaseStudy } from '@/types'
 
 interface CaseStudyCardProps {
@@ -9,7 +12,7 @@ export default function CaseStudyCard({ caseStudy }: CaseStudyCardProps) {
   const { metadata } = caseStudy
 
   return (
-    <div className="card overflow-hidden h-full flex flex-col">
+    <Card className="overflow-hidden h-full flex flex-col hover:shadow-lg transition-shadow duration-300">
       {metadata.featured_image && (
         <img 
           src={`${metadata.featured_image.imgix_url}?w=600&h=300&fit=crop&auto=format,compress`}
@@ -20,33 +23,30 @@ export default function CaseStudyCard({ caseStudy }: CaseStudyCardProps) {
         />
       )}
 
-      <div className="p-6 flex-grow flex flex-col">
-        <div className="mb-4">
-          <h3 className="text-xl font-bold text-gray-900 mb-2">
-            {metadata.project_name}
-          </h3>
-          
-          <div className="flex items-center space-x-4 text-sm text-gray-600">
-            <span><strong>Client:</strong> {metadata.client}</span>
-            {metadata.project_type && (
-              <span><strong>Type:</strong> {metadata.project_type.value}</span>
-            )}
-          </div>
+      <CardHeader>
+        <CardTitle className="text-xl mb-2">
+          {metadata.project_name}
+        </CardTitle>
+        
+        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+          <span><strong>Client:</strong> {metadata.client}</span>
+          {metadata.project_type && (
+            <span><strong>Type:</strong> {metadata.project_type.value}</span>
+          )}
         </div>
+      </CardHeader>
 
+      <CardContent className="flex-grow flex flex-col">
         {metadata.services_used && metadata.services_used.length > 0 && (
           <div className="mb-4">
             <div className="flex flex-wrap gap-2">
               {metadata.services_used.slice(0, 2).map((service) => (
-                <span 
-                  key={service.id}
-                  className="bg-primary-100 text-primary-800 px-2 py-1 rounded text-sm font-medium"
-                >
+                <Badge key={service.id} variant="secondary">
                   {service.metadata.name}
-                </span>
+                </Badge>
               ))}
               {metadata.services_used.length > 2 && (
-                <span className="text-gray-500 text-sm">
+                <span className="text-muted-foreground text-sm">
                   +{metadata.services_used.length - 2} more
                 </span>
               )}
@@ -57,9 +57,9 @@ export default function CaseStudyCard({ caseStudy }: CaseStudyCardProps) {
         <div className="flex-grow">
           {metadata.challenge && (
             <div className="mb-4">
-              <h4 className="font-semibold text-gray-900 mb-2">Challenge:</h4>
+              <h4 className="font-semibold text-foreground mb-2">Challenge:</h4>
               <div 
-                className="text-gray-600 text-sm line-clamp-3"
+                className="text-muted-foreground text-sm line-clamp-3"
                 dangerouslySetInnerHTML={{ 
                   __html: metadata.challenge.replace(/<[^>]*>/g, '').substring(0, 150) + '...'
                 }}
@@ -68,13 +68,12 @@ export default function CaseStudyCard({ caseStudy }: CaseStudyCardProps) {
           )}
         </div>
 
-        <Link 
-          href={`/case-studies/${caseStudy.slug}`}
-          className="btn-primary mt-4"
-        >
-          View Case Study
-        </Link>
-      </div>
-    </div>
+        <Button asChild className="mt-4">
+          <Link href={`/case-studies/${caseStudy.slug}`}>
+            View Case Study
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
   )
 }

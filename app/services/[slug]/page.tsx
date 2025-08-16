@@ -2,6 +2,9 @@
 import { getService, getServices } from '@/lib/cosmic'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ArrowLeft, Check } from 'lucide-react'
 import type { Metadata } from 'next'
 
 interface ServicePageProps {
@@ -46,12 +49,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
     <div className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="container max-w-4xl">
         <div className="mb-8">
-          <Link 
-            href="/services" 
-            className="text-primary-600 hover:text-primary-700 font-medium"
-          >
-            ← Back to Services
-          </Link>
+          <Button variant="ghost" asChild>
+            <Link href="/services" className="text-primary hover:text-primary/80">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Services
+            </Link>
+          </Button>
         </div>
 
         <div className="mb-12">
@@ -65,26 +68,28 @@ export default async function ServicePage({ params }: ServicePageProps) {
             />
           )}
 
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             {metadata.name}
           </h1>
           
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-xl text-muted-foreground mb-8">
             {metadata.short_description}
           </p>
 
           {metadata.starting_price && (
-            <div className="bg-primary-50 rounded-lg p-6 mb-8">
-              <p className="text-lg font-semibold text-primary-900">
-                Starting at {metadata.starting_price}
-              </p>
-            </div>
+            <Card className="bg-primary/5 mb-8">
+              <CardContent className="p-6">
+                <p className="text-lg font-semibold text-primary">
+                  Starting at {metadata.starting_price}
+                </p>
+              </CardContent>
+            </Card>
           )}
         </div>
 
         {metadata.description && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl font-bold text-foreground mb-6">
               What We Do
             </h2>
             <div 
@@ -96,34 +101,37 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
         {metadata.key_features && metadata.key_features.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl font-bold text-foreground mb-6">
               Key Features
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {metadata.key_features.map((feature, index) => (
                 <div key={index} className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-primary-600 rounded-full flex-shrink-0" />
-                  <span className="text-gray-700">{feature}</span>
+                  <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="text-muted-foreground">{feature}</span>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        <div className="bg-gray-50 rounded-xl p-8 text-center">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
-            Ready to Get Started?
-          </h3>
-          <p className="text-gray-600 mb-6">
-            Let's discuss how we can help you achieve your goals.
-          </p>
-          <Link 
-            href="#contact" 
-            className="btn-primary"
-          >
-            Contact Us
-          </Link>
-        </div>
+        <Card className="bg-muted/30">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center">
+              Ready to Get Started?
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center">
+            <p className="text-muted-foreground mb-6">
+              Let's discuss how we can help you achieve your goals.
+            </p>
+            <Button asChild>
+              <Link href="#contact">
+                Contact Us
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

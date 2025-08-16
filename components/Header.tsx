@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Menu, X } from 'lucide-react'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -19,7 +21,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <Link 
             href="/" 
-            className="text-2xl font-bold text-gray-900 hover:text-primary-600 transition-colors"
+            className="text-2xl font-bold text-gray-900 hover:text-primary transition-colors"
           >
             Digital Agency
           </Link>
@@ -30,7 +32,7 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-600 hover:text-primary-600 font-medium transition-colors"
+                className="text-gray-600 hover:text-primary font-medium transition-colors"
               >
                 {item.name}
               </Link>
@@ -38,43 +40,27 @@ export default function Header() {
           </nav>
 
           <div className="hidden md:block">
-            <Link 
-              href="#contact" 
-              className="btn-primary"
-            >
-              Get Started
-            </Link>
+            <Button asChild>
+              <Link href="#contact">
+                Get Started
+              </Link>
+            </Button>
           </div>
 
           {/* Mobile menu button */}
-          <button
-            className="md:hidden p-2 text-gray-600"
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
-            <svg 
-              className="w-6 h-6" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              {isMenuOpen ? (
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M6 18L18 6M6 6l12 12" 
-                />
-              ) : (
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M4 6h16M4 12h16M4 18h16" 
-                />
-              )}
-            </svg>
-          </button>
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </Button>
         </div>
 
         {/* Mobile Navigation */}
@@ -85,19 +71,20 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-gray-600 hover:text-primary-600 font-medium"
+                  className="text-gray-600 hover:text-primary font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <Link 
-                href="#contact" 
-                className="btn-primary inline-block text-center mt-4"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Get Started
-              </Link>
+              <Button asChild className="mt-4">
+                <Link 
+                  href="#contact" 
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Get Started
+                </Link>
+              </Button>
             </nav>
           </div>
         )}

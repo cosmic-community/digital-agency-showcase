@@ -2,6 +2,10 @@
 import { getCaseStudy, getCaseStudies } from '@/lib/cosmic'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { ArrowLeft } from 'lucide-react'
 import type { Metadata } from 'next'
 
 interface CaseStudyPageProps {
@@ -46,12 +50,12 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     <div className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="container max-w-4xl">
         <div className="mb-8">
-          <Link 
-            href="/case-studies" 
-            className="text-primary-600 hover:text-primary-700 font-medium"
-          >
-            ← Back to Case Studies
-          </Link>
+          <Button variant="ghost" asChild>
+            <Link href="/case-studies" className="text-primary hover:text-primary/80">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Case Studies
+            </Link>
+          </Button>
         </div>
 
         <div className="mb-12">
@@ -66,11 +70,11 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           )}
 
           <div className="mb-6">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
               {metadata.project_name}
             </h1>
             
-            <div className="flex flex-wrap gap-4 text-gray-600">
+            <div className="flex flex-wrap gap-4 text-muted-foreground">
               <span><strong>Client:</strong> {metadata.client}</span>
               {metadata.project_type && (
                 <span><strong>Type:</strong> {metadata.project_type.value}</span>
@@ -80,17 +84,14 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
           {metadata.services_used && metadata.services_used.length > 0 && (
             <div className="mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <h3 className="text-lg font-semibold text-foreground mb-3">
                 Services Used:
               </h3>
               <div className="flex flex-wrap gap-2">
                 {metadata.services_used.map((service) => (
-                  <span 
-                    key={service.id}
-                    className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium"
-                  >
+                  <Badge key={service.id}>
                     {service.metadata.name}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
@@ -99,45 +100,51 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           {metadata.challenge && (
-            <div className="card p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                Challenge
-              </h2>
-              <div 
-                className="prose text-gray-600"
-                dangerouslySetInnerHTML={{ __html: metadata.challenge }}
-              />
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Challenge</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div 
+                  className="prose text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: metadata.challenge }}
+                />
+              </CardContent>
+            </Card>
           )}
 
           {metadata.solution && (
-            <div className="card p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                Solution
-              </h2>
-              <div 
-                className="prose text-gray-600"
-                dangerouslySetInnerHTML={{ __html: metadata.solution }}
-              />
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Solution</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div 
+                  className="prose text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: metadata.solution }}
+                />
+              </CardContent>
+            </Card>
           )}
 
           {metadata.results && (
-            <div className="card p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                Results
-              </h2>
-              <div 
-                className="prose text-gray-600"
-                dangerouslySetInnerHTML={{ __html: metadata.results }}
-              />
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Results</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div 
+                  className="prose text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: metadata.results }}
+                />
+              </CardContent>
+            </Card>
           )}
         </div>
 
         {metadata.gallery && metadata.gallery.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl font-bold text-foreground mb-6">
               Project Gallery
             </h2>
             <div className="grid sm:grid-cols-2 gap-6">
