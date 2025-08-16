@@ -11,7 +11,7 @@ export default async function ServicesPage() {
   const services = await getServices()
 
   return (
-    <div className="section-padding">
+    <div className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="container">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">

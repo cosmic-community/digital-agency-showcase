@@ -43,7 +43,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { metadata } = caseStudy
 
   return (
-    <div className="section-padding">
+    <div className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="container max-w-4xl">
         <div className="mb-8">
           <Link 
